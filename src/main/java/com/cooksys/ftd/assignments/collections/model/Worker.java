@@ -69,7 +69,7 @@ public class Worker implements Employee {
     @Override
     public Manager getManager() {
         if(superManager==null){
-            return null
+            return null;
         }else{
             return superManager;
         }
