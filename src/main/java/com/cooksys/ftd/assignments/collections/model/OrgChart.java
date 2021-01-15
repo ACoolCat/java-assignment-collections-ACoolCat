@@ -36,7 +36,12 @@ public class OrgChart {
      * @return true if the {@code Employee} was added successfully, false otherwise
      */
     public boolean addEmployee(Employee employee) {
-        throw new MissingImplementationException();
+
+        if(employee==null){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     /**
