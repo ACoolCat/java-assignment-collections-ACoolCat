@@ -13,6 +13,7 @@ public class OrgChart {
     //  implementing the other methods as easy as possible. There are several different ways to approach this problem, so
     //  experiment and don't be afraid to change how you're storing your data if it's not working out!
 
+    private ArrayList<Employee> orgChart;
     /**
      * TODO: Implement this method
      *  <br><br>
@@ -36,12 +37,14 @@ public class OrgChart {
      * @return true if the {@code Employee} was added successfully, false otherwise
      */
     public boolean addEmployee(Employee employee) {
-
-        if(employee==null){
+        orgChart = new ArrayList<>();
+        if(orgChart.contains(employee) || employee.hasManager() == false || employee instanceof Manager){
             return false;
-        }else{
-            return true;
+        }else if(employee.hasManager() == true){
+            orgChart.add(employee.getManager());
         }
+        orgChart.add(employee);
+        return true;
     }
 
     /**
