@@ -13,7 +13,8 @@ import java.util.List;
  */
 public class Manager implements Employee {
 
-    // TODO: Does this class need private fields? If so, add them here
+    private String managerName;
+    private Manager superManager;
 
     /**
      * TODO: Implement this constructor.
@@ -21,7 +22,8 @@ public class Manager implements Employee {
      * @param name the name of the manager to be created
      */
     public Manager(String name) {
-        throw new MissingImplementationException();
+       name = managerName;
+       superManager = null;
     }
 
     /**
@@ -31,7 +33,8 @@ public class Manager implements Employee {
      * @param manager the direct manager of the manager to be created
      */
     public Manager(String name, Manager manager) {
-        throw new MissingImplementationException();
+        name = managerName;
+        manager = superManager;
     }
 
     /**
@@ -41,7 +44,7 @@ public class Manager implements Employee {
      */
     @Override
     public String getName() {
-        throw new MissingImplementationException();
+        return managerName;
     }
 
     /**
@@ -51,7 +54,11 @@ public class Manager implements Employee {
      */
     @Override
     public boolean hasManager() {
-        throw new MissingImplementationException();
+        if(superManager == null){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     /**
@@ -61,7 +68,11 @@ public class Manager implements Employee {
      */
     @Override
     public Manager getManager() {
-        throw new MissingImplementationException();
+        if(superManager == null){
+            return null;
+        }else{
+            return superManager;
+        }
     }
 
     /**
