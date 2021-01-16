@@ -37,7 +37,7 @@ public class OrgChart {
      */
     public boolean addEmployee(Employee employee) {
         orgChart = new HashSet<>();
-        if(orgChart.contains(employee) || employee.hasManager() == false || employee instanceof Manager){
+        if(orgChart.contains(employee) || employee.hasManager() == false || employee instanceof Manager ){
             return false;
         }else if(employee.hasManager() == true){
             orgChart.add(employee.getManager());
@@ -115,7 +115,13 @@ public class OrgChart {
      *         or if there are no subordinates for the given {@code Manager}
      */
     public Set<Employee> getDirectSubordinates(Manager manager) {
-        throw new MissingImplementationException();
+        Set<Employee> managerFinder = new HashSet<>();
+        for(Employee managerIteration: orgChart){
+            if (orgChart.contains(manager)){
+                managerFinder.add((Manager) managerIteration);
+            }
+        }
+        return managerFinder;
     }
 
     /**
@@ -135,7 +141,18 @@ public class OrgChart {
      *         associated {@code Manager}, or an empty map if the {@code OrgChart} is empty.
      */
     public Map<Manager, Set<Employee>> getFullHierarchy() {
-        throw new MissingImplementationException();
+        Map<Manager, Set<Employee>> newHierarchy = new HashMap<>();
+        if (orgChart.isEmpty()) {
+            return newHierarchy;
+        }
+
+        for (Employee hierarchyInstance : orgChart) {
+
+            if (hierarchyInstance instanceof Manager) {
+                newHierarchy.put((Manager) hierarchyInstance, getDirectSubordinates((Manager) hierarchyInstance));
+            }
+        }
+        return newHierarchy;
     }
 
 }
