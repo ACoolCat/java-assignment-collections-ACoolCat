@@ -4,6 +4,7 @@ import com.cooksys.ftd.assignments.collections.util.MissingImplementationExcepti
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * TODO: Implement this class
@@ -14,8 +15,8 @@ import java.util.List;
  */
 public class Manager implements Employee {
 
-    private String managerName;
-    private Manager superManager;
+    private String name;
+    private Manager manager;
 
     /**
      * TODO: Implement this constructor.
@@ -23,8 +24,8 @@ public class Manager implements Employee {
      * @param name the name of the manager to be created
      */
     public Manager(String name) {
-       name = managerName;
-       superManager = null;
+       this.name = name;
+       manager = null;
     }
 
     /**
@@ -34,8 +35,8 @@ public class Manager implements Employee {
      * @param manager the direct manager of the manager to be created
      */
     public Manager(String name, Manager manager) {
-        name = managerName;
-        manager = superManager;
+        this.name = name;
+        this.manager = manager;
     }
 
     /**
@@ -45,7 +46,7 @@ public class Manager implements Employee {
      */
     @Override
     public String getName() {
-        return managerName;
+        return name;
     }
 
     /**
@@ -55,7 +56,7 @@ public class Manager implements Employee {
      */
     @Override
     public boolean hasManager() {
-        if(superManager == null){
+        if(manager == null){
             return false;
         }else{
             return true;
@@ -69,10 +70,10 @@ public class Manager implements Employee {
      */
     @Override
     public Manager getManager() {
-        if(superManager == null){
+        if(manager == null){
             return null;
         }else{
-            return superManager;
+            return manager;
         }
     }
 
@@ -91,14 +92,33 @@ public class Manager implements Employee {
      */
     @Override
     public List<Manager> getChainOfCommand() {
+        Manager superManager = manager;
         List<Manager> managerList = new ArrayList<>();
-        while(hasManager()==true){
-            managerList.add(getManager());
+        if(hasManager()==false){
+            return managerList;
+        }
+        managerList.add(superManager);
+        while(superManager.hasManager()){
+            managerList.add(superManager.getManager());
+            superManager = superManager.getManager();
+
         }
         return managerList;
     }
 
-    // TODO: Does this class need custom .equals() and .hashcode() methods? If so, implement them here.
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Manager manager1 = (Manager) o;
+        return Objects.equals(name, manager1.name) &&
+                Objects.equals(manager, manager1.manager);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, manager);
+    }
 
     // TODO [OPTIONAL]: Consider adding a custom .toString() method here if you want to debug your code with System.out.println() statements
 

@@ -1,7 +1,5 @@
 package com.cooksys.ftd.assignments.collections.model;
 
-import com.cooksys.ftd.assignments.collections.model.Employee;
-import com.cooksys.ftd.assignments.collections.model.Manager;
 import com.cooksys.ftd.assignments.collections.util.MissingImplementationException;
 
 import java.util.*;
@@ -13,7 +11,8 @@ public class OrgChart {
     //  implementing the other methods as easy as possible. There are several different ways to approach this problem, so
     //  experiment and don't be afraid to change how you're storing your data if it's not working out!
 
-    private ArrayList<Employee> orgChart;
+    private Set<Employee> orgChart = new HashSet<>();
+    private Set<Employee> emptySet = new HashSet<>();
     /**
      * TODO: Implement this method
      *  <br><br>
@@ -37,7 +36,7 @@ public class OrgChart {
      * @return true if the {@code Employee} was added successfully, false otherwise
      */
     public boolean addEmployee(Employee employee) {
-        orgChart = new ArrayList<>();
+        orgChart = new HashSet<>();
         if(orgChart.contains(employee) || employee.hasManager() == false || employee instanceof Manager){
             return false;
         }else if(employee.hasManager() == true){
@@ -56,7 +55,11 @@ public class OrgChart {
      * @return true if the {@code Employee} has been added to the {@code OrgChart}, false otherwise
      */
     public boolean hasEmployee(Employee employee) {
-        throw new MissingImplementationException();
+        if (orgChart.contains(employee)) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -70,7 +73,7 @@ public class OrgChart {
      *         been added to the {@code OrgChart}
      */
     public Set<Employee> getAllEmployees() {
-        throw new MissingImplementationException();
+        return orgChart;
     }
 
     /**
@@ -84,7 +87,14 @@ public class OrgChart {
      *         have been added to the {@code OrgChart}
      */
     public Set<Manager> getAllManagers() {
-        throw new MissingImplementationException();
+        Set<Manager> managerChart = new HashSet<>();
+        for(Employee managerIteration: orgChart){
+            if (managerIteration instanceof Manager){
+                managerChart.add((Manager) managerIteration);
+            }
+        }
+
+        return managerChart;
     }
 
     /**

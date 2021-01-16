@@ -3,7 +3,9 @@ package com.cooksys.ftd.assignments.collections.model;
 import com.cooksys.ftd.assignments.collections.util.MissingImplementationException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * TODO: Implement this class
@@ -14,7 +16,7 @@ import java.util.List;
  */
 public class Worker implements Employee {
 
-    private String workerName;
+    private String name;
     private Manager superManager;
 
     /**
@@ -23,7 +25,7 @@ public class Worker implements Employee {
      * @param name the name of the worker to be created
      */
     public Worker(String name) {
-        name = workerName;
+        this.name = name;
         superManager = null;
     }
 
@@ -34,7 +36,7 @@ public class Worker implements Employee {
      * @param manager the direct manager of the worker to be created
      */
     public Worker(String name, Manager manager) {
-        name = workerName;
+        this.name = name;
         superManager = manager;
     }
 
@@ -45,7 +47,7 @@ public class Worker implements Employee {
      */
     @Override
     public String getName() {
-        return workerName;
+        return name;
     }
 
     /**
@@ -91,14 +93,36 @@ public class Worker implements Employee {
      */
     @Override
     public List<Manager> getChainOfCommand() {
+        Manager superduperManager = superManager;
         List<Manager> managerList = new ArrayList<>();
-        while(hasManager()==true){
-            managerList.add(getManager());
+        if(hasManager()==false){
+            return managerList;
+        }
+        managerList.add(superManager);
+        while(superduperManager.hasManager()){
+            managerList.add(superduperManager.getManager());
+            superduperManager = superduperManager.getManager();
+
         }
         return managerList;
     }
 
     // TODO: Does this class need custom .equals() and .hashcode() methods? If so, implement them here.
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Worker worker = (Worker) o;
+        return Objects.equals(name, worker.name) &&
+                Objects.equals(superManager, worker.superManager);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, superManager);
+    }
+
 
     // TODO [OPTIONAL]: Consider adding a custom .toString() method here if you want to debug your code with System.out.println() statements
 }
